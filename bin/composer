@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker-compose run --rm --workdir /work/app --entrypoint composer php "${@:-list}"

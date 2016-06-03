@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  php:
+    build:
+      context: ./docker/php
+    command: [php-fpm, -F]
+    entrypoint: docker/entrypoint.sh
+    working_dir: /work
+    volumes:
+      - ./:/work
+
+  web:
+    environment:
+      NGINX_ROOT: /work/app/public
+    image: nginx:1.11
+    command: [nginx, -g, 'daemon off;']
+    entrypoint: docker/entrypoint.sh
+    working_dir: /work
+    volumes:
+      - ./:/work
+    ports:
+      - 80
+
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: CHANGEME
+    image: mariadb
+    ports:
+      - 3306
